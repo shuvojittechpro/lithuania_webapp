@@ -23,7 +23,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | a PHP script and you can easily do that on your own.
 |
 */
-$config['base_url'] = 'http://192.168.1.1/shuvojit/lithuania/web-app/';
+$config['base_url'] = 'http://daizik.com/lithuania_webapp/';
 
 $config['vendor_url'] = $config['base_url'].'assests/vendors/';
 $config['build_url'] = $config['base_url'].'assests/build/';
