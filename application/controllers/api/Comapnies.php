@@ -25,9 +25,10 @@ class Comapnies extends REST_Controller {
 
 		$latitude = $this->post('latitude');
 		$longitude = $this->post('longitude');
+		$user_id = $this->post('user_id');
 		$search_text = $this->post('search_text');
 
-		$result = $this->model_companies->get_companies_by_sabcat($subcats,$latitude,$longitude,$search_text);
+		$result = $this->model_companies->get_companies_by_sabcat($subcats,$latitude,$longitude,$user_id,$search_text);
 		if($result['status'] === true){
 			$this->set_response(array(
 							'status' => true,
@@ -46,6 +47,24 @@ class Comapnies extends REST_Controller {
 
 	public function details_post(){
 		$company_id = $this->post('company_id');
+		$user_id = $this->post('user_id');
+		$result = $this->model_companies->get_company_byid($company_id,$user_id);
+		if($result['status'] === true){
+			$this->set_response(array(
+							'status' => true,
+							'code' => '200',
+							'data' => $result['record']
+						), REST_Controller::HTTP_OK,true);
+		}
+		else{
+			$this->set_response(array(
+							'status' => false,
+							'code' => '400',
+							'message' => $result['message']
+						), REST_Controller::HTTP_BAD_REQUEST,false);
+		}
 		
 	}
+
+	
 }
