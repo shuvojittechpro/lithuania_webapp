@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.3
+-- version 4.7.4
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost:3306
--- Generation Time: Nov 01, 2017 at 05:28 AM
--- Server version: 5.6.37
--- PHP Version: 5.6.30
+-- Host: localhost
+-- Generation Time: Nov 01, 2017 at 10:57 AM
+-- Server version: 5.5.56
+-- PHP Version: 5.6.31
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -19,7 +19,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `daizik_lithuania_webapp`
+-- Database: `lithuania_webapp`
 --
 
 -- --------------------------------------------------------
@@ -45,10 +45,8 @@ CREATE TABLE `business_user_details` (
 
 CREATE TABLE `category` (
   `id` int(11) NOT NULL,
-  `preference_id` int(11) NOT NULL,
   `title` varchar(200) NOT NULL,
   `description` text NOT NULL,
-  `image` varchar(200) NOT NULL,
   `postedTime` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -56,11 +54,9 @@ CREATE TABLE `category` (
 -- Dumping data for table `category`
 --
 
-INSERT INTO `category` (`id`, `preference_id`, `title`, `description`, `image`, `postedTime`) VALUES
-(1, 1, 'Test1', '', 'image1.png', 1508933690),
-(2, 1, 'Test2', '', 'image2.png', 1508933690),
-(3, 2, 'Test3', '', 'image3.png', 1508933690),
-(4, 2, 'Test4', '', 'image1.png', 1508933690);
+INSERT INTO `category` (`id`, `title`, `description`, `postedTime`) VALUES
+(1, 'Business', '', 1508933690),
+(2, 'Leisure', '', 1508933690);
 
 -- --------------------------------------------------------
 
@@ -100,48 +96,6 @@ INSERT INTO `companies` (`id`, `user_id`, `category_id`, `sub_category_id`, `log
 -- --------------------------------------------------------
 
 --
--- Table structure for table `companies_gallery`
---
-
-CREATE TABLE `companies_gallery` (
-  `id` int(11) NOT NULL,
-  `comp_id` int(11) NOT NULL,
-  `image` varchar(200) NOT NULL,
-  `postedTime` bigint(11) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `companies_gallery`
---
-
-INSERT INTO `companies_gallery` (`id`, `comp_id`, `image`, `postedTime`) VALUES
-(1, 1, 'gall_img1.jpg', 1508934567),
-(2, 1, 'gall_img2.jpg', 1508934567);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `preference`
---
-
-CREATE TABLE `preference` (
-  `id` int(11) NOT NULL,
-  `title` varchar(200) NOT NULL,
-  `description` text NOT NULL,
-  `postedTime` bigint(20) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `preference`
---
-
-INSERT INTO `preference` (`id`, `title`, `description`, `postedTime`) VALUES
-(1, 'Business', '', 1508933690),
-(2, 'Leisure', '', 1508933690);
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `sub_category`
 --
 
@@ -150,7 +104,6 @@ CREATE TABLE `sub_category` (
   `category_id` int(11) NOT NULL,
   `title` varchar(200) NOT NULL,
   `description` text NOT NULL,
-  `image` varchar(200) NOT NULL,
   `postedTime` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -158,15 +111,11 @@ CREATE TABLE `sub_category` (
 -- Dumping data for table `sub_category`
 --
 
-INSERT INTO `sub_category` (`id`, `category_id`, `title`, `description`, `image`, `postedTime`) VALUES
-(1, 1, 'A', '', 'image1.png', 1508934567),
-(2, 1, 'B', '', 'image2.png', 1508934567),
-(3, 2, 'C', '', 'image3.png', 1508934567),
-(4, 2, 'D', '', 'image1.png', 1508934567),
-(9, 3, 'E', '', 'image2.png', 1508934567),
-(10, 3, 'F', '', 'image3.png', 1508934567),
-(11, 4, 'G', '', 'image1.png', 1508934567),
-(12, 4, 'H', '', 'image2.png', 1508934567);
+INSERT INTO `sub_category` (`id`, `category_id`, `title`, `description`, `postedTime`) VALUES
+(1, 1, 'B', '', 1508934567),
+(2, 1, 'A', '', 1508934567),
+(3, 2, 'C', '', 1508934567),
+(4, 2, 'D', '', 1508934567);
 
 -- --------------------------------------------------------
 
@@ -189,9 +138,7 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id`, `username`, `password`, `social_type`, `social_id`, `user_type`, `postedTime`) VALUES
-(1, 'admin', '3e679dfe9fe480d5c3c92de6b9210636', NULL, NULL, 'A', 1508917352),
-(2, 'fb_127040484625273', 'lithuania123456', 'F', '127040484625273', 'U', 1509371259),
-(3, 'gp_117197233629816329718', 'lithuania123456', 'G', '117197233629816329718', 'U', 1509107840);
+(1, 'admin', '3e679dfe9fe480d5c3c92de6b9210636', '', '', 'A', 1508917352);
 
 -- --------------------------------------------------------
 
@@ -202,18 +149,12 @@ INSERT INTO `user` (`id`, `username`, `password`, `social_type`, `social_id`, `u
 CREATE TABLE `user_facebook_details` (
   `id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
-  `full_name` varchar(200) NOT NULL,
+  `first_name` varchar(200) NOT NULL,
+  `last_name` varchar(200) NOT NULL,
   `email_address` varchar(200) NOT NULL,
   `image_url` text NOT NULL,
   `postedTime` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `user_facebook_details`
---
-
-INSERT INTO `user_facebook_details` (`id`, `user_id`, `full_name`, `email_address`, `image_url`, `postedTime`) VALUES
-(1, 2, 'Walker Cowley', 'test.techprostudio@gmail.com', 'https://graph.facebook.com/127040484625273/picture?type=normal', 1509371259);
 
 -- --------------------------------------------------------
 
@@ -224,18 +165,11 @@ INSERT INTO `user_facebook_details` (`id`, `user_id`, `full_name`, `email_addres
 CREATE TABLE `user_google_details` (
   `id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
-  `full_name` varchar(200) NOT NULL,
+  `user_name` varchar(200) NOT NULL,
   `email_address` varchar(150) NOT NULL,
   `image_url` varchar(200) NOT NULL,
   `postedTime` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `user_google_details`
---
-
-INSERT INTO `user_google_details` (`id`, `user_id`, `full_name`, `email_address`, `image_url`, `postedTime`) VALUES
-(1, 3, 'Techpro Studio', 'test.techprostudio@gmail.com', 'https://lh3.googleusercontent.com/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M/s200/photo.jpg', 1509107840);
 
 --
 -- Indexes for dumped tables
@@ -257,18 +191,6 @@ ALTER TABLE `category`
 -- Indexes for table `companies`
 --
 ALTER TABLE `companies`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `companies_gallery`
---
-ALTER TABLE `companies_gallery`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `preference`
---
-ALTER TABLE `preference`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -304,46 +226,43 @@ ALTER TABLE `user_google_details`
 --
 ALTER TABLE `business_user_details`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `category`
 --
 ALTER TABLE `category`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
 --
 -- AUTO_INCREMENT for table `companies`
 --
 ALTER TABLE `companies`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
---
--- AUTO_INCREMENT for table `companies_gallery`
---
-ALTER TABLE `companies_gallery`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
---
--- AUTO_INCREMENT for table `preference`
---
-ALTER TABLE `preference`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
 --
 -- AUTO_INCREMENT for table `sub_category`
 --
 ALTER TABLE `sub_category`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
 --
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+
 --
 -- AUTO_INCREMENT for table `user_facebook_details`
 --
 ALTER TABLE `user_facebook_details`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `user_google_details`
 --
 ALTER TABLE `user_google_details`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;COMMIT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

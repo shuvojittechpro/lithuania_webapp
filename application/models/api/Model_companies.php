@@ -29,10 +29,8 @@ class Model_companies extends CI_Model {
                                             'logo' => $items['logo'],
                                             'distance' => distance_by_latlong($latitude,$longitude,$items['latitude'],$items['longitude'],'MT')
                     );
-
-                    $distance_det[] = array('distance' => distance_by_latlong($latitude,$longitude,$items['latitude'],$items['longitude'],'MT'));
                 }
-                array_multisort($comp_details,SORT_ASC,$distance_det);
+                usort($comp_details, array($this,'sort_byorder'));
                 $result = array('status' => true);
                 $result['record'] = $comp_details;
             }
@@ -45,5 +43,9 @@ class Model_companies extends CI_Model {
         }
 
         return $result;
+    }
+
+    private function sort_byorder($a, $b) {
+        return $a['distance'] - $b['distance'];
     }
 }

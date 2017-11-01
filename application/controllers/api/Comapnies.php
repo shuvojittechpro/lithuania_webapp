@@ -43,4 +43,9 @@ class Comapnies extends REST_Controller {
 						), REST_Controller::HTTP_BAD_REQUEST,false);
 		}
 	}
+
+	public function details_post(){
+		$company_id = $this->post('company_id');
+		
+	}
 }
