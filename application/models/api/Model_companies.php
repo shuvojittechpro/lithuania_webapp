@@ -16,17 +16,17 @@ class Model_companies extends CI_Model {
             if($search_text != ""){
                $where_concat = " AND title LIKE '%$search_text%'";
             }
-            $query = $this->db->query("SELECT id,title,address,latitude,longitude, CONCAT('".base_url()."uploads/',logo) as logo FROM companies WHERE `sub_category_id` IN (".$subcats.")".$where_concat);
+            $query = $this->db->query("SELECT id,title,address,latitude,longitude, rating, CONCAT('".base_url()."uploads/',logo) as logo FROM companies WHERE `sub_category_id` IN (".$subcats.")".$where_concat);
             if($query->num_rows()>0){
                 $res_details = $query->result_array();
                 foreach($res_details as $items) {
 
                     $query_connect = $this->db->select('request_status')->get_where('connect_request',array('user_id' => $user_id, 'company_id' => $items['id']));
                     if($query_connect->num_rows()>0){
-                        $connect_status = $query_connect->result_array()[0]['request_status']=='Y'?'true':'pending';
+                        $connect_status = $query_connect->result_array()[0]['request_status']=='Y'?'3':'2';
                     }
                     else{
-                        $connect_status = 'false';
+                        $connect_status = '1';
                     }
 
 
@@ -37,6 +37,7 @@ class Model_companies extends CI_Model {
                                             'latitude' => $items['latitude'],
                                             'longitude' => $items['longitude'],
                                             'logo' => $items['logo'],
+                                            'rating' => $items['rating'],
                                             'distance' => distance_by_latlong($latitude,$longitude,$items['latitude'],$items['longitude'],'MT'),
                                             'connect_status' => $connect_status
                     );
@@ -82,10 +83,10 @@ class Model_companies extends CI_Model {
 
                 $query_connect = $this->db->select('request_status')->get_where('connect_request',array('user_id' => $user_id, 'company_id' => $company_id));
                 if($query_connect->num_rows()>0){
-                    $result['record']['connect_status'] = $query_connect->result_array()[0]['request_status']=='Y'?'true':'pending';
+                    $result['record']['connect_status'] = $query_connect->result_array()[0]['request_status']=='Y'?'3':'2';
                 }
                 else{
-                    $result['record']['connect_status'] = 'false';
+                    $result['record']['connect_status'] = '1';
                 }
             }
             else{

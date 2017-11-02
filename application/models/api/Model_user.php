@@ -130,7 +130,7 @@ class Model_user extends CI_Model {
             if($query_connect_details->num_rows()>0){
                 $connect_details = $query_connect_details->result_array();
                 foreach ($connect_details as $connect_detais) {
-                    $query = $this->db->query("SELECT id,title,address, CONCAT('".base_url()."uploads/',logo) as logo,latitude,longitude FROM companies WHERE `id` = ".$connect_detais['company_id']." ");
+                    $query = $this->db->query("SELECT id,title,address, CONCAT('".base_url()."uploads/',logo) as logo,latitude, longitude,rating FROM companies WHERE `id` = ".$connect_detais['company_id']." ");
                     
                         $res_details = $query->result_array()[0];
                         $comp_details[] = array(
@@ -139,7 +139,8 @@ class Model_user extends CI_Model {
                                                 'title' => $res_details['title'],
                                                 'address' => $res_details['address'],
                                                 'logo' => $res_details['logo'],
-                                                'connect_status' => $connect_detais['request_status']=='Y'?true:false,
+                                                'rating' => $res_details['rating'],
+                                                'connect_status' => $connect_detais['request_status']=='Y'?'3':'2',
                                                 'latitude' => $res_details['latitude'],
                                                 'longitude' => $res_details['longitude'],
                                                 'distance' => distance_by_latlong($latitude,$longitude,$res_details['latitude'],$res_details['longitude'],'MT')
